@@ -54,18 +54,6 @@ public class SafariStaleWaitExampleTest {
         }
     }
 
-    // @Test
-    public void testWaitForStaleGoogle() {
-        driver.get("https://google.com");
-        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("lst-ib")));
-        input.sendKeys("selenium");
-        WebElement feelingLucky = wait.until(ExpectedConditions.elementToBeClickable(By.id("gbqfbb")));
-        feelingLucky.click();
-        wait.until(ExpectedConditions.stalenessOf(feelingLucky));
-        WebElement header = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("header")));
-        System.out.println(header.getText());
-    }
-
     @Test
     public void testWaitForStaleZappos() {
         driver.get("https://zappos.com");

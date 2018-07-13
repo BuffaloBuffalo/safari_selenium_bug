@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<title>Safari Driver Stale Element Test</title>
+</head>
+<body>
+   <form id="form" action="/" method="POST">
+    <button id="button" type="submit">Click me</button>
+  </form>
+  <script>
+    var form = document.getElementById('form'), button = document.getElementById('button')
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      button.parentNode.removeChild(button);
+    });
+  </script>
+</body>
+</html>

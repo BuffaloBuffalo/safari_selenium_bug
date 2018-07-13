@@ -45,7 +45,7 @@ public class SafariStaleWaitExampleTest {
     }
 
     private void savePageContent(final String name) {
-        Path path = Paths.get("", name);
+        Path path = Paths.get("target", name);
         try {
             String html = driver.getPageSource();
             Files.write(path, html.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
@@ -55,29 +55,13 @@ public class SafariStaleWaitExampleTest {
     }
 
     @Test
-    public void testWaitForStaleZappos() {
-        driver.get("https://zappos.com");
-        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("searchAll")));
-        input.sendKeys("kelty h2go");
-        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Search']")));
-        searchButton.click();
-        wait.until(ExpectedConditions.stalenessOf(searchButton));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("h1"), "Kelty"));
-        By cartLocator1 = By.xpath("//button[text()='Add to Cart']");
-        WebElement cartButton = wait.until(d -> {
-            List<WebElement> results = d.findElements(cartLocator1);
-            if (results.isEmpty()) {
-                return null;
-            }
-            return results.stream().filter(WebElement::isDisplayed).findFirst().orElse(null);
-        });
-        System.out.println("Clicking cart button");
-        cartButton.click();
-        wait.until(ExpectedConditions.stalenessOf(cartButton));
-        // This next line is never reached on Safari.
-        WebElement continueShopping = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Continue Shopping']")));
-        System.out.println("Class of continue shopping link: "
-                + continueShopping.getAttribute("class"));
+    public void testWaitForStaleStandalone() {
+        String pageUrl = System.getProperty("pageUrl", "http://localhost:8080/safari_stale_element_test.html");
+        driver.get(pageUrl);
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.id("button")));
+        button.click();
+        //safari times out here.
+        wait.until(ExpectedConditions.stalenessOf(button));
     }
 
     private static final String CHROME_DRIVER_PROP = "webdriver.chrome.driver";

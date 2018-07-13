@@ -56,7 +56,7 @@ public class SafariStaleWaitExampleTest {
 
     @Test
     public void testWaitForStaleStandalone() {
-        String pageUrl = System.getProperty("pageUrl", "http://localhost:8080/safari_stale_element_test.html");
+        String pageUrl = System.getProperty("pageUrl", "https://buffalobuffalo.github.io/safari_selenium_bug/safari_stale_element_test.html");
         driver.get(pageUrl);
         WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.id("button")));
         button.click();
